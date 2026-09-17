@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Collection</title>
+    <style>
+        .form-row { display: flex; gap: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Movie Collection</h1>
+    <h2>Add Movie</h2>
+    <div class="form-row">
+        <input type="text" id="title" placeholder="Title" />
+        <input type="text" id="genre" placeholder="Genre" />
+        <input type="number" id="year" placeholder="Year" />
+        <button onclick="addMovie()">Add Movie</button>
+    </div>
+    <p id="message"></p>
+
+    <script>
+        async function addMovie() {
+            const title = document.getElementById('title').value
+            const genre = document.getElementById('genre').value
+            const year = Number(document.getElementById('year').value)
+
+            const res = await fetch('/api/movies', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, genre, year })
+            })
+
+            const data = await res.json()
+            document.getElementById('message').textContent = data.message
+        }
+    </script>
+</body>
+</html>
